@@ -1,0 +1,16 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="github.hotstu.demo.binder">
+
+    <permission
+        android:name="github.hotstu.demo.binder.BIND"
+        android:description="@string/bind_permission_desc"
+        android:label="@string/bind_permission_label"
+        android:protectionLevel="dangerous" />
+    <application>
+
+        <service
+            android:name=".EchoServer"
+            android:exported="true"
+            android:permission="github.hotstu.demo.binder.BIND" />
+    </application>
+</manifest>
