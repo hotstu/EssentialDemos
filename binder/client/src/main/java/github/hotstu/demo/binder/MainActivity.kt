@@ -11,6 +11,9 @@ import android.os.IBinder
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.MutableLiveData
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
@@ -32,28 +35,33 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private val eventHandler2 = object : ICallback.Stub() {
-        override fun onEvent(aString: String?) {
-            Timber.d("onEvent:${aString}")
+        override fun onEvent(str: String?) {
+            Timber.d("onEvent:$str")
             //throw RuntimeException()
         }
     }
 
     private val serviceConnection = object : ServiceConnection {
-        override fun onServiceDisconnected(name: ComponentName?) {
-            Timber.e("onServiceDisconnected:$name")
-        }
 
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             Timber.e("onServiceConnected:$name")
+            bindingState.value = true
             service?.linkToDeath({
                 Timber.e("$service:dead")
+                bindingState.value = false
             }, 0)
             iEchoServer = IEchoServer.Stub.asInterface(service)
             iEchoServer?.registerCallback(eventHandler)
         }
 
+        override fun onServiceDisconnected(name: ComponentName?) {
+            Timber.e("onServiceDisconnected:$name")
+            //will reconncect automaticlly
+        }
+
         override fun onBindingDied(name: ComponentName?) {
             Timber.e("onBindingDied:$name")
+            //really dead & will not reconnect by system
             //TODO rebind in main Thread with delay?
             //TODO need a local proxy to record registered callbacks and register again
             unbindService(this)
@@ -66,14 +74,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    val bindingState = MutableLiveData<Boolean>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission( "github.hotstu.demo.binder.BIND") == PERMISSION_GRANTED) {
-            } else {
+        val contentView = DataBindingUtil.setContentView<ViewDataBinding>(this, R.layout.activity_main)
+        contentView.setVariable(BR.bindState, bindingState)
+        contentView.lifecycleOwner = this
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && checkSelfPermission( "github.hotstu.demo.binder.BIND") != PERMISSION_GRANTED) {
                 requestPermissions(arrayOf("github.hotstu.demo.binder.BIND"), 0)
-            }
         } else {
             bindService()
         }
