@@ -1,0 +1,68 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.example.tracker2019"
+        minSdkVersion 22
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+    signingConfigs {
+        release {
+            storeFile file("${System.getProperty("user.home")}/keyStore/android.keystore")
+            storePassword "${sign_password}"
+            keyAlias "${sign_alias}"
+            keyPassword "${sign_password}"
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.core:core-ktx:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    implementation 'androidx.fragment:fragment-ktx:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'gitbub.hotstu.naiue:lib:1.1.0'
+    implementation 'gitbub.hotstu.labo:labo-tool:1.1.0'
+    implementation 'gitbub.hotstu.labo:labo-rxfetch:1.0.0'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    implementation "androidx.room:room-runtime:2.0.0"
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.0.0'
+    kapt 'androidx.room:room-compiler:2.0.0'
+    implementation 'com.amap.api:3dmap:6.8.0'
+    implementation 'com.amap.api:location:4.5.1'
+
+}
