@@ -3,6 +3,8 @@ package github.hotstu.demo.binder
 import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Binder
 import android.os.Handler
 import android.os.IBinder
 import android.util.Log
@@ -35,7 +37,7 @@ class EchoServer : Service() {
         val accessLock: Any = Any()
 
 
-        class Binder(val service: EchoServer) : IEchoServer.Stub() {
+        class MyBinder(val service: EchoServer) : IEchoServer.Stub() {
 
             @GuardedBy("accessLock")
             @Volatile
@@ -77,6 +79,16 @@ class EchoServer : Service() {
                 return "${android.os.Process.myPid()}: ok"
             }
 
+            override fun vipEntry(str: String?): String {
+                val checkCallingPermission = service.checkCallingPermission("github.hotstu.demo.binder.BIND_VIP")
+                if (checkCallingPermission != PackageManager.PERMISSION_GRANTED) {
+                    throw  SecurityException("Access denied to process: " + Binder.getCallingPid()
+                            + ", must have permission " + "github.hotstu.demo.binder.BIND_VIP")
+                }
+                return "ok"
+
+            }
+
             private fun updateState() {
                 val isempty = synchronized(accessLock) {
                     callbacks.isEmpty()
@@ -107,8 +119,8 @@ class EchoServer : Service() {
     }
 
 
-    val mbinder: Binder by lazy {
-        Binder(this)
+    val mbinder: MyBinder by lazy {
+        MyBinder(this)
     }
     val handler = Handler()
 

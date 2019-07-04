@@ -137,6 +137,10 @@ class MainActivity : AppCompatActivity() {
         Timber.d("client: unregister callback ${eventHandler2}")
         iEchoServer?.unRegisterCallback(eventHandler2)
     }
+    fun accessVipEntry(v: View) {
+        Timber.d("client: accessVipEntry")
+        Timber.d(iEchoServer?.vipEntry("vip"))
+    }
 
 
 }

@@ -3,6 +3,8 @@
           xmlns:tools="http://schemas.android.com/tools" package="github.hotstu.demo.binder">
 
     <uses-permission android:name="github.hotstu.demo.binder.BIND" />
+    <uses-permission android:name="github.hotstu.demo.binder.BIND_VIP" />
+
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"

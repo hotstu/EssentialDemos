@@ -6,6 +6,11 @@
         android:description="@string/bind_permission_desc"
         android:label="@string/bind_permission_label"
         android:protectionLevel="dangerous" />
+    <permission
+        android:name="github.hotstu.demo.binder.BIND_VIP"
+        android:description="@string/bind_permission_desc_vip"
+        android:label="@string/bind_permission_label_vip"
+        android:protectionLevel="dangerous" />
     <application>
 
         <service

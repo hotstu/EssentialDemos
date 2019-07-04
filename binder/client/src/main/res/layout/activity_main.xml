@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="bindState"
             type="androidx.lifecycle.LiveData&lt;Boolean>" />
@@ -21,8 +22,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="56dp"
             android:layout_marginTop="68dp"
-            android:onClick="onClick"
             android:enabled="@{bindState}"
+            android:onClick="onClick"
             android:text="sendmsg"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -33,8 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="56dp"
             android:layout_marginTop="56dp"
-            android:onClick="onClick2"
             android:enabled="@{bindState}"
+            android:onClick="onClick2"
             android:text="register"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button" />
@@ -58,8 +59,8 @@
             android:layout_marginTop="172dp"
             android:layout_marginEnd="16dp"
             android:enabled="@{bindState}"
-            android:text="unregister1"
             android:onClick="unregister1"
+            android:text="unregister1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -69,11 +70,22 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
             android:layout_marginEnd="16dp"
-            android:text="unregister2"
             android:enabled="@{bindState}"
             android:onClick="unregister2"
+            android:text="unregister2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button4" />
+
+        <Button
+            android:id="@+id/button6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="68dp"
+            android:layout_marginEnd="40dp"
+            android:text="vip"
+            android:onClick="accessVipEntry"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

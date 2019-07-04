@@ -11,6 +11,7 @@ interface IEchoServer {
      * and return values in AIDL.
      */
     String sendSignal(String str);
+    String vipEntry(String str);
 
     void registerCallback(ICallback callback);
     void unRegisterCallback(ICallback callback);
