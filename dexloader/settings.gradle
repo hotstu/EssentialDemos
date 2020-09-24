@@ -1,0 +1,4 @@
+include ':halo'
+include ':patch'
+include ':app'
+rootProject.name = "dexloader"
